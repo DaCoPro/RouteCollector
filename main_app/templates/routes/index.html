@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Routes List</h1>
+
+{% for route in routes %}
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">{{ route.name }}</span>
+      <p>Grade: {{ route.grade }}</p>
+      <p>Crag: {{ route.crag }}</p>
+      {% if cat.pitches > 1 %}
+        <p>Age: {{ route.pitches }}</p>
+      {% else %}
+        <p>Age: Single Pitch</p>
+      {% endif %}
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}
