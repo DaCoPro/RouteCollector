@@ -12,3 +12,6 @@ def routes_index(request):
   routes = Route.objects.all()
   return render(request, 'routes/index.html', {'routes': routes})
 
+def routes_detail(request, route_id):
+  route = Route.objects.get(id=route_id)
+  return render(request, 'routes/detail.html', {'route': route})
