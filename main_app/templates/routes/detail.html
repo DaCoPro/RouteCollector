@@ -3,11 +3,52 @@
 
 <h1>Route Details</h1>
 
-<div class="card">
-  <div class="card-content">
-    <span class="card-title">{{ route.name }}</span>
-    
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ route.name }}</span>
+        <p>Grade: {{ route.grade }}</p>
+        <p>Description: {{ route.description }}</p>
+        <p>Rock Type: {{ route.rock_type }}</p>
+      
+    </div>
   </div>
-</div>
+  <div class="col s6">
+  <form action="{% url 'add_send' route.id %}" method="post">
+    {% csrf_token %}
+    {{ send_form.as_p }}
+    <input type="submit" class="btn" value="Add Send">
+  </form>
+  <table class="striped">
+    <table class="striped">
+      <thead>
+        <tr><th>Date</th><th>Send</th></tr>
+      </thead>
+      <tbody>
+        {% for send in route.send_set.all %}
+          <tr>
+            <td>{{send.date}}</td>
+            <td>{{send.method}}</td>
+            <td>{{send.info}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
+</div>
+<script>
+  const dateEl = document.getElementById('id_date');
+  M.Datepicker.init(dateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: false,
+    autoClose: true
+  });
+  const methodEl = document.getElementById('id_method');
+  M.FormSelect.init(methodEl);
+  const infoEl = document.getElementById('id_info');
+  M.FormSelect.init(infoEl);
+</script>
 {% endblock %}
