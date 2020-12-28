@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 METHODS = (
     ('T', 'Traditional'),
@@ -16,45 +17,21 @@ INFOS = (
     ('F', 'Flash'),
 )
 
-GRADES = (
-    ('< 5.4', '< 5.4'),
-    ('5.4', '5.4'),
-    ('5.5', '5.5'),
-    ('5.6', '5.6'),
-    ('5.7', '5.7'),
-    ('5.8', '5.8'),
-    ('5.9', '5.9'),
-    ('5.10a', '5.10a'),
-    ('5.10b', '5.10b'),
-    ('5.10c', '5.10c'),
-    ('5.10d', '5.10d'),
-    ('5.11a', '5.11a'),
-    ('5.11b', '5.11b'),
-    ('5.11c', '5.11c'),
-    ('5.11d', '5.11d'),
-    ('5.12a', '5.12a'),
-    ('5.12b', '5.12b'),
-    ('5.12c', '5.12c'),
-    ('5.12d', '5.12d'),
-    ('5.13a', '5.13a'),
-    ('5.13b', '5.13b'),
-    ('5.13c', '5.13c'),
-    ('5.13d', '5.13d'),
-)
 
 # Create your models here.
 class Route(models.Model):
     name = models.CharField(max_length=100)
-    grade = models.CharField(
-        max_length=10,
-        choices=GRADES)
+    grade = models.CharField(max_length=10)
     description = models.CharField(max_length=500)
     crag = models.CharField(max_length=50)
     rock_type = models.CharField(max_length=50)
     pitches = models.IntegerField()
 
     def __str__(self):
-        return f"{self.name}, {self.grade}"
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('detail', kwargs={'route_id': self.id})
 
 class Send(models.Model):
     date = models.DateField('Climbed On:')
@@ -70,6 +47,3 @@ class Send(models.Model):
 
     def __str__(self):
         return f"{self.method} {self.info} on {self.date}"
-    
-    
-

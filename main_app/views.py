@@ -1,11 +1,22 @@
 from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from .models import Route
 from .forms import SendForm
 
-# Add the following import
-from django.http import HttpResponse
+class RouteCreate(CreateView):
+  model = Route
+  fields = ['name', 'grade', 'description', 'crag', 'rock_type', 'pitches']
 
-# Define the home view
+  def form_valid(self, form):
+    form.instance.user = self.request.user
+    return super().form_valid(form)
+
 def home(request):
   return render(request, 'home.html')
 
