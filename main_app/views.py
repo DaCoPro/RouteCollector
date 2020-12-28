@@ -9,6 +9,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Route
 from .forms import SendForm
 
+class RouteUpdate(UpdateView):
+  model = Route
+  fields = ['name', 'grade', 'description', 'crag', 'rock_type', 'pitches']
+
+class RouteDelete(DeleteView):
+  model = Route
+  success_url = '/routes/'
+
 class RouteCreate(CreateView):
   model = Route
   fields = ['name', 'grade', 'description', 'crag', 'rock_type', 'pitches']
