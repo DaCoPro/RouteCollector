@@ -35,6 +35,10 @@
         {% endfor %}
       </tbody>
     </table>
+    <p>Climbed By...</p>
+    {% for climber in route.climber_set.all %}
+    <p> {{climber.name}} </p>
+    {% endfor %}
   </div>
   
   <a href="{% url 'routes_update' route.id %}">Edit?</a>

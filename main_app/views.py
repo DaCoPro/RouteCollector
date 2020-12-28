@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Route
+from .models import Route, Climber
 from .forms import SendForm
 
 class RouteUpdate(UpdateView):
@@ -47,3 +47,17 @@ def add_send(request, route_id):
     new_send.route_id = route_id
     new_send.save()
   return redirect('detail', route_id=route_id)
+
+class ClimberCreate(CreateView):
+  model = Climber
+  fields = '__all__'
+
+class ClimberList(ListView):
+  model = Climber
+
+class ClimberDetail(DetailView):
+  model = Climber
+
+class ClimberDelete(DeleteView):
+  model = Climber
+  success_url = '/climbers/'

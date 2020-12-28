@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Climber's Climbs</h1>
+
+<div class="row">
+  <div class="col s6 col-offset-3">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ climber.name }}</span>
+        {% for route in climber.routes.all %}
+        <p>{{route.name}} - {{route.grade}}</p>
+        <br>
+        {% endfor  %}
+      </div>
+    </div>
+    <div class="col s6">
+      <h3>Available Routes</h3>
+      
+      {% for route in routes.all %}
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">
+            <span style="{{ route.name }}">{{ route.grade }}</span>
+          </span>
+        </div>
+        <div class="card-action">
+          <form action="{% url 'assoc_toy' route.id climber.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn">Add</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+      
+    </div>
+  </div>
+</div>
+<a href="{% url 'climbers_delete' climber.id %}">Delete</a>
+{% endblock %}
+
