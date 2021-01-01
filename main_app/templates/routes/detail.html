@@ -41,6 +41,20 @@
     {% endfor %}
   </div>
   
+  <h4>Sent it:</h4>
+  <div>
+    {% for climber in route.climbers.all %}
+      <h5> {{ climber.name }} </h5>
+    {% endfor %}
+  <h4>Yet to Send:</h4>
+    {% for climber in climbers %}
+      <h5>{{ climber.name }}</h5>
+      <form action="{% url 'assoc_climber' route.id climber.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn">Add</button>
+      </form>
+    {% endfor %}
+  </div>
   <a href="{% url 'routes_update' route.id %}">Edit?</a>
   <a href="{% url 'routes_delete' route.id %}">Delete?</a>
 </div>

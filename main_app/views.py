@@ -34,10 +34,12 @@ def routes_index(request):
 
 def routes_detail(request, route_id):
   route = Route.objects.get(id=route_id)
+  climbers_yet_to_climb = Climber.objects.exclude(id__in = route.climbers.all().values_list('id'))
   send_form = SendForm()
   return render(request, 'routes/detail.html', {
     'route': route,
-    'send_form': send_form
+    'send_form': send_form,
+    'climbers': climbers_yet_to_climb
   })
 
 def add_send(request, route_id):
@@ -61,3 +63,7 @@ class ClimberDetail(DetailView):
 class ClimberDelete(DeleteView):
   model = Climber
   success_url = '/climbers/'
+
+def assoc_climber(request, route_id, climber_id):
+  Route.objects.get(id=route_id).climbers.add(climber_id)
+  return redirect('detail', route_id=route_id)
